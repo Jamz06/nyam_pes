@@ -1,7 +1,8 @@
 # Модуль с запросами
 
 import pymysql.cursors
-import datetime
+
+from config import DB_CONF
 
 # Универсальный Запрос под нужную таблицу. Выбрать все записи.
 simple_query = """
@@ -15,7 +16,7 @@ row_query = """
 
 # Универсальный запрос на изменение записи в таблице по id записи
 edit_query = """
-    UPDATE {table} SET {filed}={value} WHERE id='{}'
+    UPDATE {table} SET {setter} WHERE id='{}'
 """
 
 # Запрос на добавление записи в таблицу
@@ -24,14 +25,26 @@ insert_query = """
     ({fileds}) VALUES ({values})
 """
 
+# Запрос на выбор имен всех таблиц БД, для обращения к ним и создания ссылок на их просмотр
+tables_query = """
+    SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES where table_schema='{db_name}'
+""".format(db_name=DB_CONF['db'])
+
+table_fields = """
+    SELECT COLUMN_COMMENT, COLUMN_NAME, COLUMN_KEY, COLUMN_TYPE, IS_NULLABLE
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE
+    table_name = '{table}'
+    and column_key != 'PRI'
+"""
 
 ### ФУНКЦИИ РАБОТЫ С БД ###
 
 def connect():
-    user = 'root'
-    password = 'Turgenev1'
-    host = 'localhost'
-    db = 'nyam_pes'
+    user = DB_CONF['user']
+    password = DB_CONF['password']
+    host = DB_CONF['host']
+    db = DB_CONF['db']
 
     connection = pymysql.connect(
         host=host,

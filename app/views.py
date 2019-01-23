@@ -13,7 +13,7 @@ def index():
     """
     # Форма с параметрами собаки
     dog_form = DogForm()
-
+    print(dog_form.dog_age)
     if dog_form.validate_on_submit():
         flash('Форма подтверждена')
         # Расчитать всю фигню

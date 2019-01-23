@@ -15,6 +15,13 @@ MAIL = {
     'password': 'ПАРОЛЬ СЮДА НАПИСАТЬ' # Пароль
 }
 
-
+### DB config ###
+DB_CONF = {
+    'user':'root',
+    'password':'Turgenev1',
+    'host':'localhost',
+    'db':'nyam_pes'
+}
+ 
 
 

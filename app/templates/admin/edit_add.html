@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+
+
+
+{% block app_content %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{{ wtf.quick_form(form, extra_classes='form', button_map={"submit":'btn btn-primary'}) }}
+
+
+{% endblock app_content %}

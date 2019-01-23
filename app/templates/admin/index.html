@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+
+{% block app_content %}
+<h1>
+    Доступные таблицы:
+</h1>
+
+{% if tables %}
+    {% for table in tables %}
+    <ul>
+        <li>
+                <a href="{{ url_for('view_table',table=table['TABLE_NAME']) }}" class="badge badge-info" title="{{table['TABLE_COMMENT']}}">{{ table['TABLE_COMMENT'] }}</a>
+        </li>
+    </ul>
+    {% endfor %}
+{% else %}
+    <p>
+        Нет таблиц :(
+    </p>
+{% endif %}
+
+{% endblock app_content %}

@@ -112,3 +112,16 @@ class DogForm(FlaskForm):
     )
 
     submit = SubmitField('Расчитать')
+
+
+class EditForm(FlaskForm):
+    """
+        Шаблон для автособираемой формы редактирования/добавления поля таблицы
+    """
+
+    
+
+if __name__ == '__main__':
+    test_form = EditForm()
+
+    

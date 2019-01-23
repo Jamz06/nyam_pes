@@ -1,5 +1,5 @@
 {% extends "admin/base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
+
 
 
 {% block app_content %}
@@ -34,6 +34,7 @@
     </table>
 {% endif %}
 
-<input class="btn btn-primary" type="button" value="Добавить запись">
+<a class="btn btn-primary" href="{{ url_for('add_row',table=table) }}"> Добавить запись </a>
+{# <input class="btn btn-primary" type="button" value="Добавить запись"> #}
 
 {% endblock app_content %}
