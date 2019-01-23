@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+{% block app_content %}
+    <script type="text/javascript" src="/static/js/data_miner.js"></script>
+
+    <h1>НямПес </h1>
+    <div name="main">
+        <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                {{ wtf.form_errors(form, hiddens="only") }}
+
+
+            <div class="col-md-6"> 
+                <div class="panel panel-default">
+                    <div id="heading_form" class="panel-heading">
+                        <h3>Какова ваша собака?</h3>
+                    </div>
+                    
+                
+                        <div class="form-group">
+                            <div class="input-group mb-3">   
+                                {{ wtf.form_field(form.dog_age)}}
+                                {{ wtf.form_field(form.dog_weight)}}
+                                {{ wtf.form_field(form.dog_body_type)}}
+                                {{ wtf.form_field(form.dog_breed)}}
+                            </div>
+                        </div>
+                </div>
+            </div>
+            
+            
+            <div class="col-md-6"> 
+                    <div class="panel panel-default">
+                        <div id="heading_form" class="panel-heading">
+                            <h3>Выберите ингредиенты</h3>
+                        </div>
+                        
+                    
+                            <div class="form-group">
+                                <div class="input-group mb-3">   
+                                    {{ wtf.form_field(form.meat)}}
+                                    {{ wtf.form_field(form.sub_product)}}
+                                    {{ wtf.form_field(form.vegitables)}}
+                                    {{ wtf.form_field(form.poridge)}}
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            <!-- Разместить по центру. -->
+            {{ wtf.form_field(form.dog_inlude_milk, class="custom-control-input") }}
+            {{ wtf.form_field(form.submit, class="btn btn-primary form-contorl") }}
+        </form>
+    </div>
+
+        
+
+    
+{% endblock %}

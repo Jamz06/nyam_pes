@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="center-block" style="width: 600px;">
+    <h1 class="text-center">Четыреста четвертая ошибка</h1>
+    <p class="text-center lead">
+        Приехали, файл не найден :(
+    </p>
+    <p class="text-center lead">
+        Так уж получилось, что запрашиваммая страница не найдена. Попробуйте вернуться на главную, или поискать в других разделах.
+        Удачи!
+
+    </p>
+    <p class="text-right"><a class="btn btn-primary" href="{{ url_for('index') }}">На главную</a></p>
+</div>
+{% endblock %}

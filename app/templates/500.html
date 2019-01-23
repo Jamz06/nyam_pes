@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="center-block" style="width: 600px;">
+    <h1 class="text-center">Пятисотая ошибка </h1>
+    <p class="text-center lead">
+       Добро пожаловать на самую посещаемую страницу КоКоС-Online!
+    </p>
+    <p class="text-center lead">
+        Вы увидели ее исключительно потому, что наш сервер задумался о природе гравитационного коллапса сверхмассивных объектов и его влияния на энтропию вселенной. да, он у нас головастый.
+        
+
+    </p>
+    <p class="text-center lead">
+        Если вы намеревались увидеть что-то совсем другое, попробуйте обновить страницу, или вернуться на предыдущую.
+    </p>
+    <p class="text-right"><a class="btn btn-primary" href="{{ url_for('index') }}">На главную</a></p>
+</div>
+{% endblock %}
