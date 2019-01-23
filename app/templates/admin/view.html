@@ -1,0 +1,39 @@
+{% extends "admin/base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+{% block app_content %}
+{% if table %}
+    <h1>Просмотр таблицы {{table}}</h1>
+{% else %}
+    <h1>Просмотр таблицы </h1>
+{% endif %}
+
+{% if result %}
+    <hr>
+    <table class="table table-striped table-bordered" id="data_table">
+    <thead>
+        <tr>
+            {% for key in result[0] %}
+            <th>{{  key }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in result %}
+            <tr>
+                {% for value in row.values() %}
+                    <td>{{ value }}</td> 
+                {% endfor %}
+                <td>
+                    <a href="{{url_for('edit_table', table=table, id=row['id'])}}">Изменить</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+
+<input class="btn btn-primary" type="button" value="Добавить запись">
+
+{% endblock app_content %}

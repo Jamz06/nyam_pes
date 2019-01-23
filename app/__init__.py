@@ -28,4 +28,4 @@ app.logger.addHandler(file_handler)
 app.logger.info('Старт лога')
 
 
-from app import views, errors
+from app import views, errors, admin
