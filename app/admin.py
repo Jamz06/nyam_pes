@@ -14,6 +14,8 @@ def admin_index():
     return render_template('admin/index.html', tables=table_names)
 
 
+
+
 @app.route('/admin/view/<string:table>')
 def view_table(table):
     """
