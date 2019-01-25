@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
 from wtforms.fields.html5 import DateField 
 from wtforms.validators import DataRequired, Length
 
@@ -114,14 +114,10 @@ class DogForm(FlaskForm):
     submit = SubmitField('Расчитать')
 
 
-class EditForm(FlaskForm):
+class BaseEditForm(FlaskForm):
     """
         Шаблон для автособираемой формы редактирования/добавления поля таблицы
     """
-
+    pass
     
-
-if __name__ == '__main__':
-    test_form = EditForm()
-
     

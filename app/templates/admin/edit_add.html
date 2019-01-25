@@ -6,7 +6,13 @@
 
 {% import 'bootstrap/wtf.html' as wtf %}
 
-{{ wtf.quick_form(form, extra_classes='form', button_map={"submit":'btn btn-primary'}) }}
+{# 
+    {{ wtf.quick_form(form, extra_classes='form', button_map={"submit":'btn btn-primary'}) }}
+#}
+<form action="" method="POST" class="form">
+    {{form}}
+
+</form>
 
 
 {% endblock app_content %}

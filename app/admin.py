@@ -1,12 +1,13 @@
 from flask import render_template, flash, redirect, request, abort, jsonify, send_from_directory, url_for, jsonify
 from app import app
 from app.queries import execute, edit_query, insert_query, row_query, simple_query, execute, tables_query, table_fields
+from flask import Markup
+# from app.forms import EditForm
 
-from app.forms import EditForm
-
-from app.form_constructor import construct
+from app.form_constructor import construct_form
 
 table_names = execute(tables_query)
+print(table_names)
 @app.route('/admin/')
 @app.route('/admin/index')
 def admin_index():
@@ -29,7 +30,7 @@ def edit_table(table, id):
     """
         Изменить запись в таблице
     """
-    form = EditForm()
+    
     
     # Получить запись из таблицы
     data = execute(
@@ -40,8 +41,9 @@ def edit_table(table, id):
     )
     # Добавить поля в форму, на основе полей таблицы
     form_fields = execute(table_fields.format(table=table))
-    form = construct(form, form_fields)
-    new_form = form
+    form = construct_form(form_fields)
+    print(form)
+    
     
     
     # Валидация формы
@@ -49,7 +51,7 @@ def edit_table(table, id):
     
 
 
-    return render_template('admin/edit_add.html', tables=table_names, form=new_form, data=data)
+    return render_template('admin/edit_add.html', tables=table_names, form=Markup(form), data=data)
 
 
 @app.route('/admin/add/<string:table>', methods=['GET', 'POST'])
