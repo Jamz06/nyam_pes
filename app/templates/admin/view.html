@@ -17,6 +17,7 @@
             {% for key in result[0] %}
             <th>{{  key }}</th>
             {% endfor %}
+            
         </tr>
     </thead>
     <tbody>
@@ -26,7 +27,10 @@
                     <td>{{ value }}</td> 
                 {% endfor %}
                 <td>
-                    <a href="{{url_for('edit_table', table=table, id=row['id'])}}">Изменить</a>
+                    <a class="btn btn-info" href="{{url_for('edit_table', table=table, id=row['id'])}}">Изменить</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" href="{{url_for('delete_row', table=table, id=row['id'])}}">Удалить</a>
                 </td>
             </tr>
         {% endfor %}

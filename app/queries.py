@@ -16,13 +16,24 @@ row_query = """
 
 # Универсальный запрос на изменение записи в таблице по id записи
 edit_query = """
-    UPDATE {table} SET {setter} WHERE id='{}'
+    UPDATE {table} SET {setter} WHERE id='{id}'
 """
 
 # Запрос на добавление записи в таблицу
 insert_query = """
     INSERT INTO {table}
+    SET {setter}
+"""
+
+insert_query_classic = """
+    INSERT INTO {table}
     ({fileds}) VALUES ({values})
+"""
+
+delete_query = """
+    DELETE 
+    FROM {table}
+    WHERE id = '{id}'
 """
 
 # Запрос на выбор имен всех таблиц БД, для обращения к ним и создания ссылок на их просмотр
@@ -64,5 +75,6 @@ def execute(query):
             cursor.execute(query)
         result = cursor.fetchall()
     finally:
+        connection.commit()
         connection.close()
     return result

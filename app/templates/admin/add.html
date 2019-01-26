@@ -12,16 +12,16 @@
     {{ form.hidden_tag() }} 
     <div class="form-group">
         {% for row in data %}
-            {% for field in row  %}
+            
                 <div class="input-group mb-3">
-                    <div class="input-group-addon">{{field}}</div>
-                    {% if row == 'id' %}
-                        <input type="text" id="{{field}}" name="{{field}}" value="{{row[field]}}" disabled class="form-control">
+                    <div class="input-group-addon">{{row['COLUMN_NAME']}}</div>
+                    {% if row['COLUMN_NAME'] == 'id' %}
+                        {# <input type="text" id="{{row[field]}}" name="{{row[field]}}" value="" disabled class="form-control">#}
                     {% else %}
-                        <input type="text" id="{{field}}" value="{{row[field]}}" name="{{field}}" class="form-control">
+                        <input type="text" id="{{row['COLUMN_NAME']}}" name="{{row['COLUMN_NAME']}}" value="" class="form-control">
                     {% endif %}
                 </div>
-            {% endfor %}
+            
         {% endfor %}
     </div>
     <input type="submit" value="Сохранить" class="btn btn-primary form-contorl">

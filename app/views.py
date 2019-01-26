@@ -15,6 +15,7 @@ def index():
     dog_form = DogForm()
     print(dog_form.dog_age)
     if dog_form.validate_on_submit():
+        print(request.form)
         flash('Форма подтверждена')
         # Расчитать всю фигню
         # Показать шаблон с размеченной таблицей
