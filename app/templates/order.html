@@ -6,30 +6,8 @@
 {% block app_content %}
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/table_to_json.js"></script>
-{# 
-<script type="tex/javascript">
-    function send_order() {
 
-
-        // Loop through grabbing everything
-        var myRows = [];
-        var $headers = $("th");
-        var $rows = $("tbody tr").each(function(index) {
-        $cells = $(this).find("td");
-        myRows[index] = {};
-        $cells.each(function(cellIndex) {
-            myRows[index][$($headers[cellIndex]).html()] = $(this).html();
-        });    
-        });
-    
-        // Let's put this in the object like you want and convert to JSON (Note: jQuery will also do this for you on the Ajax request)
-        var myObj = {};
-        myObj.myrows = myRows;
-        alert(JSON.stringify(myObj));​
-    };
-</script>
-#}
-<h1> Ваш заказ </h1>
+<h1 class="text-center"> Ваш заказ </h1>
 <h2>Основной рацион</h2>
 {% if result %}
     <hr>
@@ -37,16 +15,28 @@
     <thead>
         <tr>
             {% for key in result[0] %}
-            <th>{{  key }}</th>
+            <th >{{  key }}</th>
             {% endfor %}
             
         </tr>
     </thead>
     <tbody>
             {% for row in result %}
-            <tr>
+                {% if row['Продукт'] == 'Итого:' %}
+                    <tr class="success">
+                {% else %}
+                    <tr>
+                {% endif %}
                 {% for value in row.values() %}
-                    <td>{{ value }}</td> 
+                    {#
+                    {% if value == 'Итого:' %}
+                        <td class="success" >{{ value }}</td>
+                    {% else %}
+                        <td>{{ value }}</td>
+                    {% endif %}
+                    #}
+                    <td>{{ value }}</td>
+
                 {% endfor %}
            
             </tr>
@@ -71,7 +61,11 @@
     </thead>
     <tbody>
             {% for row in milks %}
-            <tr>
+                {% if row['Ингредиенты'] == 'Итого:'%}
+                    <tr class="success">
+                {% else %}
+                <tr>
+                {% endif %}
                 {% for value in row.values() %}
                     <td>{{ value }}</td> 
                 {% endfor %}
@@ -82,9 +76,44 @@
     </table>
 {% endif %}
 
-{# <a href="{{ url_for('index') }}" class="btn btn-info" >Назад</a>#}
+<div class="row">
+    <div class="col-md-7 col-md-offset-3">
+        <div class="alert alert-info" >
+                <p >Вашу собаку в возрасте {{ feed['age'] }}  следует кормить {{ feed['feed'] }} раз(а)</p>
+        </div>
+        
+    </div>
+</div>
+
+
 <input class="btn btn-info" type="button" onclick="history.back();" value="Назад"/>
-{# <a href="{{ url_for('buy') }}" class="btn btn-success">Заказать</a> #}
-<button class="btn btn-success" value="Заказать" onclick="send_order();">Заказать</button>
+
+<button id="show_order" class="btn btn-success" value="Заказать" onclick="show_contact_form();">Заказать</button>
+<div class="row">
+
+
+    <div id="contact_div" class="col-md-6 col-md-offset-3"  hidden >
+        <form action='#' class="form" role="form">
+            {{ contact_form.hidden_tag() }}
+            {{ wtf.form_errors(contact_form, hiddens="only") }}
+
+            <div class="form-group  required">
+                {{ contact_form.name.label() }}
+                {{ contact_form.name(class='form-control', placeholder=contact_form.name.description )}}
+            </div>
+            <div class="form-group  required">
+                {{ contact_form.email.label() }}
+                {{ contact_form.email(class='form-control', placeholder=contact_form.email.description )}}
+            </div>
+            <div class="form-group">
+                {{ contact_form.phone.label() }}
+                {{ contact_form.phone(class='form-control', placeholder=contact_form.phone.description )}}
+            </div>
+            {# {{ contact_form.submit(class="btn btn-primary form-contorl") }} #}
+            <button id="send_order" class="btn btn-success" value="Заказать" onclick="send_order();">Заказать</button>
+
+        </form>
+    </div>
+</div>
 
 {% endblock app_content %}

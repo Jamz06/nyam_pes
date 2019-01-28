@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, request, abort, jsonify, send_from_directory, url_for, jsonify
 from app import app
-from app.forms import DogForm
+from app.forms import DogForm, ContactForm
 from app.calculations import calc_food, MILKS
 from app.queries import execute, edit_query, insert_query, row_query, simple_query, execute, tables_query, table_fields, delete_query, get_choices
 
@@ -38,6 +38,8 @@ def index():
         del data['csrf_token']
         del data['submit']
         print(data)
+        # Костыль:  сколько раз кормить
+        feed = execute('select age, feed from age where id={}'.format(data['dog_age']))
         # Поместить в массив нужные данные
 
         ration, total_weigt = calc_food(data)
@@ -50,8 +52,13 @@ def index():
         except Exception:
             milks = None
         
+        # Добавить форму обратной связи
+        contact_form = ContactForm()
         # Показать шаблон с размеченной таблицей
-        return(render_template('order.html', result=ration, weight=total_weigt, milks=milks))
+        # 
+       
+        return(render_template('order.html', result=ration, weight=total_weigt, milks=milks, contact_form=contact_form, feed=feed[0]))
+        
         
     return render_template(
         'index.html',
@@ -60,7 +67,11 @@ def index():
     )
 
 
+@app.route('/order')
+def order(ration, total_weight, milks):
+    contact_form = ContactForm()
 
+    return(render_template('order.html', result=ration, weight=total_weight, milks=milks, contact_form=contact_form))
 
 @app.route('/buy')
 def buy():

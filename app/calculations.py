@@ -17,7 +17,7 @@ MILKS = [
     {'Ингредиенты': 'Яблоки', 'Вес(грамм)':50, 'Цена':6 },
     {'Ингредиенты': 'Бананы', 'Вес(грамм)':30, 'Цена':10 },
     {'Ингредиенты': 'Куриное яйцо', 'Вес(грамм)':50, 'Цена':6 },
-    {'Ингредиенты': 'Творог', 'Вес(грамм)':220, 'Цена':54 },
+    {'Ингредиенты': 'Итого:', 'Вес(грамм)':220, 'Цена':54 },
 
 ]
 
@@ -71,10 +71,10 @@ def calc_food(data):
         '''
             Расчитать запись в таблице. вернуть название, вес, общую стоимость
         '''
-        product = execute('select i.name "Продукт", i.price "Цена", t.name "Тип" from ingredient i, ingredient_type t where i.type = t.id and i.id = {}'.format(id))
+        product = execute('select i.name "Продукт", t.name "Тип", i.price "Цена"  from ingredient i, ingredient_type t where i.type = t.id and i.id = {}'.format(id))
         product = product[0]
         product['Вес'] = weight / 100 * percent
-        product['Цена'] = round(product['Цена'] * (round(product['Вес'],2) / 100),2)
+        product['Цена'] = round(product['Цена'] * (product['Вес'] / 100),2)
 
         return product
 
@@ -105,8 +105,8 @@ def calc_food(data):
     # Расчитать итог
     totals = {
         'Продукт': 'Итого:',
-        'Цена': 0,
         'Тип': '',
+        'Цена': 0,
         'Вес': 0
     }
 

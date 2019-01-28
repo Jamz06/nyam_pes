@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from wtforms.fields.html5 import DateField 
 from wtforms.validators import DataRequired, Length
 
@@ -121,9 +121,16 @@ class EditForm(FlaskForm):
         Шаблон для автособираемой формы редактирования/добавления поля таблицы
     """
 
-    
+class ContactForm(FlaskForm):
+    """
+        Форма обратной связи
+    """
+    name = StringField(label='Как к Вам обращаться?', description='Напрмер: Борис',validators=[DataRequired(message='Обязательное поле')])
+    phone = StringField(label='Телефон', description='8XXXXXXXXXX',)
+    email = StringField(label='Электронная почта', description='example@gmail.com', validators=[DataRequired(message='Обязательное поле')])
+    submit = SubmitField('Отправить')
 
 if __name__ == '__main__':
     test_form = EditForm()
-
+    
     
