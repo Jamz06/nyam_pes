@@ -20,14 +20,8 @@ class DogForm(FlaskForm):
         ],
     )
     # Вес собаки
-    dog_weight = SelectField(
-        label='Вес собаки',
-        choices = [
-            ('1','1-3 кг'),
-            ('2','4-6 кг'),
-            ('3', '7-10 кг'),
-            ('4','11 кг и выше'),
-        ],
+    dog_weight = StringField(
+        label='Вес собаки, В граммах'
     )
 
     # Телосложение собаки
@@ -107,7 +101,7 @@ class DogForm(FlaskForm):
     )
 
     # # Включить кисломолочку
-    dog_inlude_milk = BooleanField(
+    dog_include_milk = BooleanField(
         label='Включить Кисломолочные продукты'
     )
 

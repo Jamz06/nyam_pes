@@ -6,7 +6,7 @@ from config import DB_CONF
 
 # Универсальный Запрос под нужную таблицу. Выбрать все записи.
 simple_query = """
-    SELECT * FROM {table} order by id
+    SELECT * FROM {table}
 """
 
 # Универсальный запрос под нужную таблицу. Выбрать запись по ID
@@ -78,3 +78,81 @@ def execute(query):
         connection.commit()
         connection.close()
     return result
+
+def wrap_choice(choice_dict):
+    """
+        Функция принимает список словарей вида [{'id':'value'}, .....]
+        Возвращает список вида [('id', 'value') ...]
+    """
+
+    result = []
+    # print(choice_dict)
+    for row in choice_dict:
+        
+        foo_list = list(row.values())
+        
+        result.append((foo_list[0], foo_list[1]))
+
+    return result
+
+def get_choices():
+    # При инициации приложения, сделать выбираемые поля
+    choices = {
+        'age': None,
+        'body_type': None,
+        'breed': None,
+        'meat': None,
+        'vegitables': None,
+        'sub_product': None,
+        'poridge': None
+    }
+    
+    choices['age'] = execute(
+        "select id, age from age"
+    )
+    choices['body_type'] = execute(
+        "select id, body_type from body_type"
+    )
+    choices['breed'] = execute(
+        "select id, breed from breed"
+    )
+
+    # Занести мясо
+    choices['meat'] = execute(
+        simple_query.format(
+            table='ingredient'
+            + "  where type = 1",   
+        )
+    )
+
+    # Занести овощи
+    choices['vegitables'] = execute(
+        simple_query.format(
+            table='ingredient'
+            + "  where type = 2",
+            
+        )
+    )
+
+    # Занести Субпродукты
+    choices['sub_product'] = execute(
+        simple_query.format(
+            table='ingredient'
+            + "  where type = 5",
+        )
+    )
+
+    # Занести Субпродукты
+    choices['poridge'] = execute(
+        simple_query.format(
+            table='ingredient'
+            + "  where type = 3",
+        )
+    )
+    # print(choices)
+    # Превратить словари в списки
+    for key in choices:
+        choices[key] = wrap_choice(choices[key])
+
+
+    return(choices)

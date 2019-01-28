@@ -1,17 +1,15 @@
+TEST_DATA = {'dog_age': '1', 'dog_weight': '5000', 'dog_body_type': '1', 'dog_breed': '1', 'meat': '1', 'sub_product': '7', 'vegitables': '3', 'poridge': '4'}
 
-
-def calc_ingredient(age, weight):
+def calc_food_mass(age, weight):
     '''
-        Функция расчета массы корма (ингредиента)
+        Функция расчета массы корма
     '''
+    # age = percent from db
+    # weight = gramm
 
     result = (age * weight) / 10
 
     return result
-
-
-
-
 
 
 def calc_food(data):
@@ -34,7 +32,7 @@ def calc_food(data):
     dog_weight = data.pop('dog_weight')
 
     # Общий вес рациона
-    ration_weight = calc_ingredient(dog_age, dog_weight)
+    ration_weight = calc_food_mass(dog_age, dog_weight)
 
     if data['porrige']:
         primary_ration.append(
@@ -67,7 +65,5 @@ def prepare_data(data):
     return data
 
 
-# if __name__ == '__main__':
-#     # test()
-
-#     prepare_data(None)
+if __name__ == '__main__':
+    foo = calc_food(TEST_DATA)

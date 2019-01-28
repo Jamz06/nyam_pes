@@ -112,9 +112,16 @@
                     </div>
             </div>
             <!-- Разместить по центру. -->
+            <div class="form-group">
+                <div class="input-group-mb-3">
+                    <div class="input-group-addon">{{form.dog_include_milk.label.text }}</div>
+                    <div class="input-group-addon">{{form.dog_include_milk}}</div>
+                    {{ wtf.form_field(form.submit, class="btn btn-primary form-contorl") }}
+                </div>
+            </div>
             {# {{ wtf.form_field(form.dog_inlude_milk, class="form-control") }} #}
 
-            {{ wtf.form_field(form.submit, class="btn btn-primary form-contorl") }}
+            {# {{ wtf.form_field(form.submit, class="btn btn-primary form-contorl") }} #}
         </form>
     </div>
 
