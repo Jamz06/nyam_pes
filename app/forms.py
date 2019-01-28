@@ -18,10 +18,12 @@ class DogForm(FlaskForm):
             ('3','1-3 года'),
             ('4','4-7 лет'),
         ],
+        validators=[DataRequired(message='Обязательное поле')],
     )
     # Вес собаки
     dog_weight = StringField(
-        label='Вес собаки, В граммах',description="напишите в граммах"
+        label='Вес собаки, В граммах',description="напишите в граммах",
+        validators=[DataRequired(message='Обязательное поле')]
     )
 
     # Телосложение собаки
@@ -34,6 +36,7 @@ class DogForm(FlaskForm):
             ('4', 'Большая'),
             
         ],
+        validators=[DataRequired(message='Обязательное поле')],
     )
 
     # Тип породы
@@ -50,6 +53,7 @@ class DogForm(FlaskForm):
             ('8','Пинчер, Шнауцер'),
             ('9','Шпицы'),
         ],
+        validators=[DataRequired(message='Обязательное поле')],
     )
 
 
@@ -62,6 +66,7 @@ class DogForm(FlaskForm):
             ('3','Мясо3'),
             ('4','Еще мясо'),
         ],
+        validators=[DataRequired(message='Обязательное поле')],
     )
 
     # Субпродукты
@@ -73,6 +78,7 @@ class DogForm(FlaskForm):
             ('3','Сердце'),
             ('4','Трахея'),
         ],
+        validators=[DataRequired(message='Обязательное поле')],
     )
 
     # Овощи
@@ -84,6 +90,7 @@ class DogForm(FlaskForm):
             ('3','Ахуеть какой овощь'),
             ('4','Овощ2'),
         ],
+        validators=[DataRequired(message='Обязательное поле')],
     )
 
 
@@ -98,6 +105,7 @@ class DogForm(FlaskForm):
             ('3','Не просто крупа'),
             ('4','Дорогая крупа'),
         ],
+        
     )
 
     # # Включить кисломолочку

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+
+{% block app_content %}
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/table_to_json.js"></script>
+{# 
+<script type="tex/javascript">
+    function send_order() {
+
+
+        // Loop through grabbing everything
+        var myRows = [];
+        var $headers = $("th");
+        var $rows = $("tbody tr").each(function(index) {
+        $cells = $(this).find("td");
+        myRows[index] = {};
+        $cells.each(function(cellIndex) {
+            myRows[index][$($headers[cellIndex]).html()] = $(this).html();
+        });    
+        });
+    
+        // Let's put this in the object like you want and convert to JSON (Note: jQuery will also do this for you on the Ajax request)
+        var myObj = {};
+        myObj.myrows = myRows;
+        alert(JSON.stringify(myObj));​
+    };
+</script>
+#}
+<h1> Ваш заказ </h1>
+<h2>Основной рацион</h2>
+{% if result %}
+    <hr>
+    <table class="table table-striped table-bordered" id="data_table">
+    <thead>
+        <tr>
+            {% for key in result[0] %}
+            <th>{{  key }}</th>
+            {% endfor %}
+            
+        </tr>
+    </thead>
+    <tbody>
+            {% for row in result %}
+            <tr>
+                {% for value in row.values() %}
+                    <td>{{ value }}</td> 
+                {% endfor %}
+           
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+
+
+{% if milks %}
+<h2>Кисломолочный рацион</h2>
+
+    <hr>
+    <table class="table table-striped table-bordered" id="data_table">
+    <thead>
+        <tr>
+            {% for key in milks[0] %}
+            <th>{{  key }}</th>
+            {% endfor %}
+            
+        </tr>
+    </thead>
+    <tbody>
+            {% for row in milks %}
+            <tr>
+                {% for value in row.values() %}
+                    <td>{{ value }}</td> 
+                {% endfor %}
+           
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+
+{# <a href="{{ url_for('index') }}" class="btn btn-info" >Назад</a>#}
+<input class="btn btn-info" type="button" onclick="history.back();" value="Назад"/>
+{# <a href="{{ url_for('buy') }}" class="btn btn-success">Заказать</a> #}
+<button class="btn btn-success" value="Заказать" onclick="send_order();">Заказать</button>
+
+{% endblock app_content %}

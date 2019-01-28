@@ -28,7 +28,7 @@ CREATE TABLE `age` (
   `percent` double DEFAULT NULL COMMENT 'Процент',
   PRIMARY KEY (`id`),
   UNIQUE KEY `age_UNIQUE` (`age`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Таблица возрастных периодов';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Таблица возрастных периодов';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `age` (
 
 LOCK TABLES `age` WRITE;
 /*!40000 ALTER TABLE `age` DISABLE KEYS */;
-INSERT INTO `age` VALUES (1,'2 - 3 месяца',6);
+INSERT INTO `age` VALUES (1,'2 - 3 месяца',0.07),(2,'3-6 Месяцев',0.08),(4,'6-12 Месяцев',0.1);
 /*!40000 ALTER TABLE `age` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +50,8 @@ DROP TABLE IF EXISTS `app_order`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `app_order` (
   `order_id` int(11) NOT NULL COMMENT 'ИД ЗАКАЗА',
-  `ingredient_id` int(11) NOT NULL COMMENT 'ИД Ингредиента'
+  `ingredient_id` int(11) NOT NULL COMMENT 'ИД Ингредиента',
+  `weight` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица включения ингредиентов в заказ. Не трогать.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -74,7 +75,7 @@ CREATE TABLE `body_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `body_type` varchar(45) DEFAULT NULL COMMENT 'Тип тела',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Тип тела';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Тип тела';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,6 +84,7 @@ CREATE TABLE `body_type` (
 
 LOCK TABLES `body_type` WRITE;
 /*!40000 ALTER TABLE `body_type` DISABLE KEYS */;
+INSERT INTO `body_type` VALUES (1,'Худое'),(2,'Нормальное'),(3,'Тучное');
 /*!40000 ALTER TABLE `body_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +153,7 @@ CREATE TABLE `ingredient` (
   `type` int(11) DEFAULT NULL COMMENT 'Тип',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Ингредиенты';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Ингредиенты';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +162,7 @@ CREATE TABLE `ingredient` (
 
 LOCK TABLES `ingredient` WRITE;
 /*!40000 ALTER TABLE `ingredient` DISABLE KEYS */;
-INSERT INTO `ingredient` VALUES (1,'Печень',100,1),(2,'Почки',80,1),(3,'Овощ',50,2),(4,'Каша',20,3),(5,'Кумыс',1500,4);
+INSERT INTO `ingredient` VALUES (1,'Печень',100,1),(2,'Почки',80,1),(3,'Овощ',50,2),(6,'Кумыс',15000,4),(7,'Бычий корень',100,5),(8,'Гречка',100,3),(9,'Манная каша',150,3);
 /*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +178,7 @@ CREATE TABLE `ingredient_type` (
   `name` varchar(45) NOT NULL COMMENT 'Вид ингридиента',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Вид ингридиента';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Вид ингридиента';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +187,7 @@ CREATE TABLE `ingredient_type` (
 
 LOCK TABLES `ingredient_type` WRITE;
 /*!40000 ALTER TABLE `ingredient_type` DISABLE KEYS */;
-INSERT INTO `ingredient_type` VALUES (3,'Каша'),(4,'Кисломолочка'),(1,'Мясо'),(2,'Овощ');
+INSERT INTO `ingredient_type` VALUES (3,'Каша'),(4,'Кисломолочка'),(1,'Мясо'),(2,'Овощ'),(5,'Субпродукт');
 /*!40000 ALTER TABLE `ingredient_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +203,7 @@ CREATE TABLE `order` (
   `date` datetime NOT NULL COMMENT 'Дата',
   `customer_id` int(11) NOT NULL COMMENT 'Клиент',
   `age_id` int(11) NOT NULL COMMENT 'Возраст собаки',
-  `weight_id` int(11) NOT NULL COMMENT 'Вес собаки',
+  `weight` double NOT NULL COMMENT 'Вес собаки',
   `body_type_id` int(11) NOT NULL COMMENT 'Тип тела собаки',
   `breed_id` int(11) NOT NULL COMMENT 'Тип породы',
   PRIMARY KEY (`id`)
@@ -241,30 +243,6 @@ LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `weight`
---
-
-DROP TABLE IF EXISTS `weight`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `weight` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `weight` varchar(45) DEFAULT NULL COMMENT 'Вес',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `weight_UNIQUE` (`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Вес собаки';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `weight`
---
-
-LOCK TABLES `weight` WRITE;
-/*!40000 ALTER TABLE `weight` DISABLE KEYS */;
-/*!40000 ALTER TABLE `weight` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -275,4 +253,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-28  9:39:38
+-- Dump completed on 2019-01-28 20:50:01

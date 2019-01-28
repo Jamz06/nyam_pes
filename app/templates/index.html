@@ -5,7 +5,8 @@
 {% block app_content %}
     <script type="text/javascript" src="/static/js/data_miner.js"></script>
 
-    <h1>НямПес </h1>
+    <h1 class="text-center">НямПес </h1>
+    {# <img src="/static/nyam_pes.jpg" class="img-responsive">#}
     <div name="main">
         <form action="" method="POST">
                 {{ form.hidden_tag() }}
@@ -97,21 +98,11 @@
                                     {{ form.poridge(class='form-control') }}
                                 </div>
                             </div>
-                            {# 
-                            <div class="form-group row">
-                                <label class="col-md-6 col-form-label">
-                                    {{ form.dog_inlude_milk.label.text }}
-                                </label>
-                                <div class="col-md-3">
-                                    {{ form.dog_inlude_milk(class='form-control') }}
-                                </div>
-                        </div>
-                        #}
-                            
-                            
+
                     </div>
             </div>
             <!-- Разместить по центру. -->
+            {#
             <div class="form-group">
                 <div class="input-group-mb-3">
                     <div class="input-group-addon">{{form.dog_include_milk.label.text }}</div>
@@ -119,9 +110,18 @@
                     {{ wtf.form_field(form.submit, class="btn btn-primary form-contorl") }}
                 </div>
             </div>
-            {# {{ wtf.form_field(form.dog_inlude_milk, class="form-control") }} #}
+            #}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ wtf.form_field(form.dog_include_milk, class="form-control") }}
+                </div>
+                <div class="col-md-6">
+                    {{ wtf.form_field(form.submit, class="btn btn-primary form-contorl") }}
+                </div>
+            </div>
+            
 
-            {# {{ wtf.form_field(form.submit, class="btn btn-primary form-contorl") }} #}
+            
         </form>
     </div>
 

@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, request, abort, jsonify, send_from_directory, url_for, jsonify
 from app import app
 from app.forms import DogForm
-from app.calculations import calc_food
+from app.calculations import calc_food, MILKS
 from app.queries import execute, edit_query, insert_query, row_query, simple_query, execute, tables_query, table_fields, delete_query, get_choices
 
 
@@ -32,14 +32,26 @@ def index():
     data = {}
     if request.method == 'POST':
     # if dog_form.validate_on_submit():
-        flash('Форма подтверждена')
+        #  flash('Форма подтверждена')
         # Расчитать всю фигню
         data = request.form.to_dict()
         del data['csrf_token']
         del data['submit']
         print(data)
+        # Поместить в массив нужные данные
+
+        ration, total_weigt = calc_food(data)
+        print('Общий вес рациона {} грамм'.format(total_weigt))
+        print(ration)
+        # Кисломолочка
+        try:
+            if data['dog_include_milk']:
+                milks = MILKS
+        except Exception:
+            milks = None
         
         # Показать шаблон с размеченной таблицей
+        return(render_template('order.html', result=ration, weight=total_weigt, milks=milks))
         
     return render_template(
         'index.html',
@@ -50,6 +62,9 @@ def index():
 
 
 
+@app.route('/buy')
+def buy():
+    return redirect(url_for('index'))
 
 @app.route('/static/<path:path>')
 # Статику отдаем без авторизации

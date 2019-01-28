@@ -1,6 +1,8 @@
+from app.queries import simple_query, row_query, execute
+
 TEST_DATA = {
-    'dog_age': 0.07,
-    'dog_weight': '5000',
+    'dog_age': '2',
+    'dog_weight': '7000',
     'dog_body_type': '1',
     'dog_breed': '1',
     'meat': '1',
@@ -9,14 +11,28 @@ TEST_DATA = {
     'poridge': '1'
 }
 
+MILKS = [
+    {'Ингредиенты': 'Творог', 'Вес(грамм)':70, 'Цена':20 },
+    {'Ингредиенты': 'Сметана', 'Вес(грамм)':70, 'Цена':12 },
+    {'Ингредиенты': 'Яблоки', 'Вес(грамм)':50, 'Цена':6 },
+    {'Ингредиенты': 'Бананы', 'Вес(грамм)':30, 'Цена':10 },
+    {'Ингредиенты': 'Куриное яйцо', 'Вес(грамм)':50, 'Цена':6 },
+    {'Ингредиенты': 'Творог', 'Вес(грамм)':220, 'Цена':54 },
+
+]
+
+
 def calc_food_mass(age, weight):
     '''
         Функция расчета массы корма
     '''
     # age = percent from db
     # weight = gramm
+    # Выбрать процент для расчета из БД
+    percent = execute("select percent from age where id={}".format(age))
+    percent = percent[0]['percent']
 
-    result = (age * int(weight))
+    result = (percent * int(weight))
     result = round(result,2)
 
     return result
@@ -32,8 +48,16 @@ def calc_food(data):
             Ключи это поля таблицы
     """
     # Оснвной рацион
+    # Вернет список словарей вида:
+    # [ {
+    #       'Продукт': 'Печень',
+    #       'Вес': '100.0',
+    #       'Цена': '100',
+    #       'тип': 'мясо',
+    # }, ...
+    # ]
     primary_ration = []
-
+    
     
     # Очистить словарь
     data = prepare_data(data)
@@ -43,19 +67,54 @@ def calc_food(data):
 
     # Общий вес рациона
     ration_weight = calc_food_mass(dog_age, dog_weight)
-    
+    def get_product(id, weight, percent):
+        '''
+            Расчитать запись в таблице. вернуть название, вес, общую стоимость
+        '''
+        product = execute('select i.name "Продукт", i.price "Цена", t.name "Тип" from ingredient i, ingredient_type t where i.type = t.id and i.id = {}'.format(id))
+        product = product[0]
+        product['Вес'] = weight / 100 * percent
+        product['Цена'] = round(product['Цена'] * (round(product['Вес'],2) / 100),2)
+
+        return product
+
     if data['poridge'] != '':
-        primary_ration.append((data['meat'], ration_weight / 100 * 30))
-        primary_ration.append((data['sub_product'], ration_weight / 100 * 30))
-        primary_ration.append((data['vegitables'], ration_weight / 100 * 10))
-        primary_ration.append((data['poridge'], ration_weight / 100 * 30))
-
+        # # Расчитать цену
+        # db_product = get_product(data['meat']) 
+        # db_product['Вес'] = ration_weight / 100 * 30
+        # db_product['Цена'] = db_product['Цена'] * round(db_product['Вес'],2)
+        
+        # Мясо
+        primary_ration.append(get_product(data['meat'],ration_weight,30))
+        # Субпродукты
+        primary_ration.append(get_product(data['sub_product'], ration_weight, 30 ))
+        # овощи
+        primary_ration.append(get_product(data['vegitables'], ration_weight, 10 ))
+        # Каша
+        primary_ration.append(get_product(data['poridge'], ration_weight, 30 ))
     else:
-        primary_ration.append((data['meat'], ration_weight / 100 * 50))
-        primary_ration.append((data['sub_product'], ration_weight / 100 * 40))
-        primary_ration.append((data['vegitables'], ration_weight / 100 * 10))
+        primary_ration.append(get_product(data['meat'],ration_weight,50))
+        primary_ration.append(get_product(data['sub_product'],ration_weight,40))
+        primary_ration.append(get_product(data['vegitables'],ration_weight,10))
+
+        # primary_ration.append((data['meat'], ration_weight / 100 * 50))
+        # primary_ration.append((data['sub_product'], ration_weight / 100 * 40))
+        # primary_ration.append((data['vegitables'], ration_weight / 100 * 10))
 
 
+    # Расчитать итог
+    totals = {
+        'Продукт': 'Итого:',
+        'Цена': 0,
+        'Тип': '',
+        'Вес': 0
+    }
+
+    for row in primary_ration:
+        totals['Цена'] += row['Цена']
+        totals['Вес'] += row['Вес']
+
+    primary_ration.append(totals)
     return primary_ration, ration_weight
 
 
