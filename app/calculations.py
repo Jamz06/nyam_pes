@@ -73,17 +73,14 @@ def calc_food(data):
         '''
         product = execute('select i.name "Продукт", t.name "Тип", i.price "Цена"  from ingredient i, ingredient_type t where i.type = t.id and i.id = {}'.format(id))
         product = product[0]
+
         product['Вес'] = weight / 100 * percent
-        product['Цена'] = round(product['Цена'] * (product['Вес'] / 100),2)
+        product['Цена'] = round(product['Цена'] * (product['Вес'] / 1000),2)
 
         return product
 
     if data['poridge'] != '':
-        # # Расчитать цену
-        # db_product = get_product(data['meat']) 
-        # db_product['Вес'] = ration_weight / 100 * 30
-        # db_product['Цена'] = db_product['Цена'] * round(db_product['Вес'],2)
-        
+        # # Расчитать цену       
         # Мясо
         primary_ration.append(get_product(data['meat'],ration_weight,30))
         # Субпродукты
@@ -96,11 +93,6 @@ def calc_food(data):
         primary_ration.append(get_product(data['meat'],ration_weight,50))
         primary_ration.append(get_product(data['sub_product'],ration_weight,40))
         primary_ration.append(get_product(data['vegitables'],ration_weight,10))
-
-        # primary_ration.append((data['meat'], ration_weight / 100 * 50))
-        # primary_ration.append((data['sub_product'], ration_weight / 100 * 40))
-        # primary_ration.append((data['vegitables'], ration_weight / 100 * 10))
-
 
     # Расчитать итог
     totals = {

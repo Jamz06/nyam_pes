@@ -67,11 +67,46 @@ def index():
     )
 
 
-@app.route('/order')
-def order(ration, total_weight, milks):
-    contact_form = ContactForm()
+@app.route('/order', methods=['POST'])
+def order():
+    if not request.json:
+        abort(400)
+    
+    params = request.json
+    # print('JSON has come! Here it is:  ')
+    # print(params)
+    customer = params['customer']
+    products = params['order_data']
+    
+    # Проверить на существующий email
+    customer_id = execute("select id from customer where email = '{}'".format(customer['email']))
+    if not customer_id:
+        print(customer_id)
+        data_to_update = ''
+        # print(customer)
 
-    return(render_template('order.html', result=ration, weight=total_weight, milks=milks, contact_form=contact_form))
+        data_to_update += "name = '{name}', email = '{email}', phone='{phone}' ".format(
+            name=customer['name'],
+            email=customer['email'],
+            phone=customer['phone']
+        )
+        
+        # debug Вывести запрос в БД
+        query = insert_query.format(
+                table='customer',
+                setter=data_to_update,
+            )
+        # Выполнить обновление записи
+        print(query)
+        execute(query)
+
+        customer_id = execute("select id from customer last")
+        customer_id = customer_id[0]
+
+
+
+
+    return '200'
 
 @app.route('/buy')
 def buy():

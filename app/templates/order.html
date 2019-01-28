@@ -9,7 +9,7 @@
 
 <h1 class="text-center"> Ваш заказ </h1>
 <div class="panel panel-default">
-        <div id="heading_form" class="panel-heading">
+        <div id="heading_form" class="panel-heading" onload="window.scrollTo(0,document.body.scrollHeight);">
             <h2>Основной рацион</h2>
         </div>
             {% if result %}
@@ -85,7 +85,7 @@
 <div class="row">
     <div class="col-md-7 col-md-offset-3">
         <div class="alert alert-info" >
-                <p >Вашу собаку в возрасте {{ feed['age'] }}  следует кормить {{ feed['feed'] }} раз(а)</p>
+                <p class="center-text">Вашу собаку в возрасте {{ feed['age'] }}  следует кормить {{ feed['feed'] }} раз(а)</p>
         </div>
         
     </div>
@@ -99,26 +99,22 @@
 
 
     <div id="contact_div" class="col-md-6 col-md-offset-3"  hidden >
-        <form action='#' class="form" role="form">
-            {{ contact_form.hidden_tag() }}
-            {{ wtf.form_errors(contact_form, hiddens="only") }}
-
             <div class="form-group  required">
                 {{ contact_form.name.label() }}
                 {{ contact_form.name(class='form-control', placeholder=contact_form.name.description )}}
             </div>
             <div class="form-group  required">
                 {{ contact_form.email.label() }}
-                {{ contact_form.email(class='form-control', placeholder=contact_form.email.description )}}
+                {{ contact_form.email(class='form-control', placeholder=contact_form.email.description, required=True)}}
             </div>
             <div class="form-group">
                 {{ contact_form.phone.label() }}
                 {{ contact_form.phone(class='form-control', placeholder=contact_form.phone.description )}}
             </div>
-            {# {{ contact_form.submit(class="btn btn-primary form-contorl") }} #}
-            <button id="send_order" class="btn btn-success" value="Заказать" onclick="send_order();">Заказать</button>
+            
+            <button id="send_order" class="btn btn-success" value="Заказать" onclick="send_data();">Заказать</button>
 
-        </form>
+        
     </div>
 </div>
 
