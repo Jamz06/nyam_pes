@@ -28,8 +28,7 @@
                 {% endfor %}
                 <td>
                     <a class="btn btn-info" href="{{url_for('edit_table', table=table, id=row['id'])}}">Изменить</a>
-                </td>
-                <td>
+                
                     <a class="btn btn-danger" href="{{url_for('delete_row', table=table, id=row['id'])}}">Удалить</a>
                 </td>
             </tr>

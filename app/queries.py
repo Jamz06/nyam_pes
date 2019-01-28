@@ -6,7 +6,7 @@ from config import DB_CONF
 
 # Универсальный Запрос под нужную таблицу. Выбрать все записи.
 simple_query = """
-    SELECT * FROM {table}
+    SELECT * FROM {table} order by id
 """
 
 # Универсальный запрос под нужную таблицу. Выбрать запись по ID
