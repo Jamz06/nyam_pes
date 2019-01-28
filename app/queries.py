@@ -85,8 +85,9 @@ def wrap_choice(choice_dict):
         Возвращает список вида [('id', 'value') ...]
     """
 
-    result = []
+    result = [('','[Пусто]')]
     # print(choice_dict)
+    
     for row in choice_dict:
         
         foo_list = list(row.values())

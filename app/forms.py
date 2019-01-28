@@ -21,7 +21,7 @@ class DogForm(FlaskForm):
     )
     # Вес собаки
     dog_weight = StringField(
-        label='Вес собаки, В граммах'
+        label='Вес собаки, В граммах',description="напишите в граммах"
     )
 
     # Телосложение собаки
