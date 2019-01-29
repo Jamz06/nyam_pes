@@ -6,33 +6,33 @@ from config import DB_CONF
 
 # Универсальный Запрос под нужную таблицу. Выбрать все записи.
 simple_query = """
-    SELECT * FROM {table}
+    SELECT * FROM nyam_pes.{table}
 """
 
 # Универсальный запрос под нужную таблицу. Выбрать запись по ID
 row_query = """
-    SELECT * FROM {table} WHERE id = '{id}'
+    SELECT * FROM nyam_pes.{table} WHERE id = '{id}'
 """
 
 # Универсальный запрос на изменение записи в таблице по id записи
 edit_query = """
-    UPDATE {table} SET {setter} WHERE id='{id}'
+    UPDATE nyam_pes.{table} SET {setter} WHERE id='{id}'
 """
 
 # Запрос на добавление записи в таблицу
 insert_query = """
-    INSERT INTO {table}
+    INSERT INTO nyam_pes.{table}
     SET {setter}
 """
 
 insert_query_classic = """
-    INSERT INTO {table}
+    INSERT INTO nyam_pes.{table}
     ({fileds}) VALUES ({values})
 """
 
 delete_query = """
     DELETE 
-    FROM {table}
+    FROM nyam_pes.{table}
     WHERE id = '{id}'
 """
 
