@@ -1,11 +1,15 @@
-from flask import render_template, flash, redirect, request, abort, jsonify, send_from_directory, url_for, jsonify
+from flask import render_template, flash, redirect, request, abort, jsonify, send_from_directory, url_for, jsonify, session
 from app import app
 from app.forms import DogForm, ContactForm
 from app.calculations import calc_food, MILKS
-from app.queries import execute, edit_query, insert_query, row_query, simple_query, execute, tables_query, table_fields, delete_query, get_choices
+from app.queries import execute, edit_query, insert_query, row_query, simple_query, execute, tables_query, table_fields, delete_query, get_choices, insert
 
+import datetime
 
-
+def get_formated_current_time():
+    now = datetime.datetime.now()
+    date = '{}-{}-{} {}:{}:{}'.format(now.year,now.month,now.day,now.hour,now.minute,now.second)
+    return date
 
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/index', methods=['POST', 'GET'])
@@ -38,6 +42,8 @@ def index():
         del data['csrf_token']
         del data['submit']
         print(data)
+        ORDER_DATA = data
+        session['order'] = ORDER_DATA
         # Костыль:  сколько раз кормить
         feed = execute('select age, feed from age where id={}'.format(data['dog_age']))
         # Поместить в массив нужные данные
@@ -69,6 +75,10 @@ def index():
 
 @app.route('/order', methods=['POST'])
 def order():
+    answer = {
+        'status': 200,
+        'oreder': ''
+    }
     if not request.json:
         abort(400)
     
@@ -79,9 +89,10 @@ def order():
     products = params['order_data']
     
     # Проверить на существующий email
-    customer_id = execute("select id from customer where email = '{}'".format(customer['email']))
-    if not customer_id:
-        print(customer_id)
+    session['customer_id'] = execute("select id from customer where email = '{}'".format(customer['email']))
+
+    if not session['customer_id']:
+        
         data_to_update = ''
         # print(customer)
 
@@ -98,15 +109,40 @@ def order():
             )
         # Выполнить обновление записи
         print(query)
-        execute(query)
+        session['customer_id'] = insert(query)
+        
+        # customer_id = execute("select id from customer last")
+        # session['customer_id'] = customer_id[0]
 
-        customer_id = execute("select id from customer last")
-        customer_id = customer_id[0]
+    
+
+    print('Сессия и заказ в ней')
+    print(session['order'])
+    print(session['customer_id'])
+    # Занести в БД incusion
+    date = get_formated_current_time()
+
+    query = """
+    
+        INSERT INTO nyam_pes.order
+        (date,customer_id,age_id,weight,body_type_id,breed_id)
+        VALUES ('{date}', '{customer_id}', '{age_id}', '{weight}', '{body_type_id}', '{breed_id}')
+
+    """.format(
+        date=date,
+        customer_id = session['customer_id'][0]['id'],
+        age_id = session['order']['dog_age'],
+        weight = session['order']['dog_weight'],
+        body_type_id = session['order']['dog_body_type'],
+        breed_id = session['order']['dog_breed'],
+    )
+    print(query)
+    session['order_id'] = insert(query)
 
 
-
-
-    return '200'
+    # Занести все позиции заказа
+    answer['order'] = session['order_id']
+    return jsonify(answer)
 
 @app.route('/buy')
 def buy():

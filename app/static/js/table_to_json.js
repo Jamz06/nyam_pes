@@ -58,6 +58,10 @@ function send_data(){
         success: function (data) {            
             
             console.log('JSON has come!');
+            // console.log('order ' + data['order']);
+            console.log(data);
+            alert('Ваш заказ № ' + data['order'] + ' принят. Всего доброго!');
+            history.back();
         },
         error: function () {
             alert('Ой Что-то пошло не так, попробуйте позднее');

@@ -79,6 +79,19 @@ def execute(query):
         connection.close()
     return result
 
+def insert(query):
+    connection = connect()
+    result = ''
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+        result = cursor.lastrowid
+    finally:
+        connection.commit()
+        connection.close()
+    return result
+
+
 def wrap_choice(choice_dict):
     """
         Функция принимает список словарей вида [{'id':'value'}, .....]

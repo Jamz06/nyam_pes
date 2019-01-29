@@ -62,11 +62,11 @@ def calc_food(data):
     # Очистить словарь
     data = prepare_data(data)
 
-    dog_age = data.pop('dog_age')
-    dog_weight = data.pop('dog_weight')
+    # dog_age = data.pop('dog_age')
+    # dog_weight = data.pop('dog_weight')
 
     # Общий вес рациона
-    ration_weight = calc_food_mass(dog_age, dog_weight)
+    ration_weight = calc_food_mass(data['dog_age'], data['dog_weight'])
     def get_product(id, weight, percent):
         '''
             Расчитать запись в таблице. вернуть название, вес, общую стоимость
@@ -115,8 +115,8 @@ def prepare_data(data):
     '''
         Очищает массив от ненужной ерунды
     '''
-    data.pop('dog_breed')
-    data.pop('dog_body_type')
+    # data.pop('dog_breed')
+    # data.pop('dog_body_type')
     
     # print(data)
 
