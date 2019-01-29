@@ -26,9 +26,10 @@ CREATE TABLE `age` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `age` varchar(45) NOT NULL COMMENT 'Возраст',
   `percent` double DEFAULT NULL COMMENT 'Процент',
+  `feed` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `age_UNIQUE` (`age`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Таблица возрастных периодов';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Таблица возрастных периодов';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +38,7 @@ CREATE TABLE `age` (
 
 LOCK TABLES `age` WRITE;
 /*!40000 ALTER TABLE `age` DISABLE KEYS */;
-INSERT INTO `age` VALUES (1,'2 - 3 месяца',0.07),(2,'3-6 Месяцев',0.08),(4,'6-12 Месяцев',0.1);
+INSERT INTO `age` VALUES (1,'2 - 3 месяца',0.07,'4'),(2,'3-6 Месяцев',0.08,'3'),(4,'6-12 Месяцев',0.1,'2'),(5,'с 12 месяцев',0.2,'2');
 /*!40000 ALTER TABLE `age` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,11 +124,11 @@ DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `phone` varchar(45) NOT NULL,
+  `phone` varchar(45) DEFAULT NULL,
   `email` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Покупатели';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Покупатели';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,6 +137,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES (5,'Борис','89519429049','jamshaha@mail.ru'),(6,'Борис','89519429049','');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +155,7 @@ CREATE TABLE `ingredient` (
   `type` int(11) DEFAULT NULL COMMENT 'Тип',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Ингредиенты';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='Ингредиенты';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +164,7 @@ CREATE TABLE `ingredient` (
 
 LOCK TABLES `ingredient` WRITE;
 /*!40000 ALTER TABLE `ingredient` DISABLE KEYS */;
-INSERT INTO `ingredient` VALUES (1,'Печень',100,1),(2,'Почки',80,1),(3,'Овощ',50,2),(6,'Кумыс',15000,4),(7,'Бычий корень',100,5),(8,'Гречка',100,3),(9,'Манная каша',150,3);
+INSERT INTO `ingredient` VALUES (1,'Печень',100,5),(2,'Почки',80,5),(3,'Цветная капуста',50,2),(6,'Кумыс',15000,4),(7,'Бычий корень',100,5),(8,'Гречневая каша',100,3),(9,'Манная каша',150,3),(10,'Трахея',50,5),(11,'Легкие',90,5),(12,'Мозги',120,5),(13,'Сердце',200,5),(14,'Говяжий хвост',50,5),(15,'Бараний хвост',30,5),(16,'Уши',100,5),(17,'Говядина',400,1),(18,'Курица',150,1),(19,'Индейка',400,1),(20,'Оленина',600,1),(21,'Тыква',200,2),(22,'Кабачок',150,2),(23,'Болгарский перец',300,2),(24,'Морковь',40,2),(25,'Фасоль зеленая',200,2),(26,'Огурцы',50,2),(27,'Рисовая каша',60,3),(28,'Овсянка',80,3),(29,'Пшеничная каша',100,3);
 /*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,4 +255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-28 20:50:01
+-- Dump completed on 2019-01-29 11:28:56
